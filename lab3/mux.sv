@@ -27,6 +27,5 @@ module mux(
     output [15:0] out
     );
     
-    //"not" mux (reverses input)
-    assign out = sel_mux ? b : a;
+    assign out = sel_mux ? a : b;
 endmodule
