@@ -21,10 +21,10 @@
 
 
 module alu(
-    input logic[15:0] a,
-    input logic[15:0] b,
+    input logic signed[15:0] a,
+    input logic signed[15:0] b,
     input logic[3:0] s,
-    output logic[15:0] f,
+    output logic signed[15:0] f,
     output logic take_branch,
     output logic ovf
     );
