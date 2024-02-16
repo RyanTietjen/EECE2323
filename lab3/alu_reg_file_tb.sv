@@ -22,37 +22,52 @@
 
 module alu_reg_file_tb();
     //inputs
-    //regfile variables
-    logic rst;
+    logic reset;
     logic clk;
-    logic wr_en;
     logic [2:0] rd0_addr;
     logic [2:0] rd1_addr;
     logic [2:0] wr_addr;
     logic [15:0] wr_data;
-    logic [15:0] rd0_data;
-    logic [15:0] rd1_data;
-    //alu variables
-    logic[15:0] a;
-    logic[15:0] b;
-    logic[3:0] s;
-    logic[15:0] f;
+    logic RegWrite;
+    logic [15:0] alu_input2_instr_src;
+    logic ALUSrc2;
+    logic ALUSrc1;
+    logic[2:0] ALUOp;
+    //outputs
+    logic[15:0] result;
+    logic [15:0] input1;
+    logic [15:0] input2;
     logic take_branch;
     logic ovf;
-    //mux variables
-    logic [15:0] mux_a;
-    logic [15:0] mux_b;
-    logic sel_mux;
-    logic [15:0] out;
+    //between wires
+    logic[15:0] ReadData1;
+    logic[15:0] ReadData2;
     
-reg_file UTT(.rst(rst), .clk(clk), .wr_en(wr_en), .rd0_addr(rd0_addr), .rd1_addr(rd1_addr), 
-.wr_addr(wr_addr), .wr_data(wr_data), .rd0_data(rd0_data), .rd1_data(rd1_data));
+reg_file register1(reset, clk, RegWrite, rd0_addr, rd1_addr, wr_addr, wr_data, ReadData1, ReadData2);
+mux mux1(ReadData1, 15'b0, ALUSrc1, input1);
+mux mux2(ReadData2, alu_input2_instr_src, ALUSrc2, input2);
+alu sixteenbit_alu(input1, input2, ALUOp, result, take_branch, ovf);
 
-//alu UTT(.a(a), .b(b), .s(s), .f(f), .take_branch(take_branch), .ovf(ovf));
-//mux1 UTT(.mux_a(rd0_data), );
+//sixteenbit_alu UTT(.a(input1), .b(input2), .s(ALUOp), .f(result), .take_branch(take_branch), .ovf(ovf));
+//mux1 UTT(.a(ReadData1),.b(15'b0), .sel_mux(ALUSrc1), .out(input1));
+//mux2 UTT(.a(ReadData2),.b(alu_input2_instr_src), .sel_mux(ALUSrc2), .out(input2));
+//register1 UTT(.rst(reset), .clk(clk), .wr_en(RegWrite), .rd0_addr(rd0_addr), .rd1_addr(rd1_addr), .wr_addr(wr_addr), .wr_data(wr_data), .rd0_data(ReadData1), .rd1_data(ReadData2));
 initial begin
-    rst =0; ALUSrc1 = 1; ALUSrc2 = 1; alu_input2_instr_src = 16'hC; ALUOp = 0; RegWrite = 0; 
-    #100; 
+    reset=1;
+    #10 reset = 0;
+    end
+    
+initial begin
+    clk=1;
+    forever #10 clk=~clk;
 end
-always #10 clk = ~clk; 
+initial begin
+    //ALUsrc1 = 0: zero register, 1: ReadData1
+    //ALUsrc2 = 0: alu_input2_instr_src, 1: ReadData2
+    ALUSrc1 = 0; ALUSrc2 = 0; rd0_addr = 0; rd1_addr = 0; wr_addr = 0; wr_data = 0; RegWrite = 0; alu_input2_instr_src = 0; ALUOp = 0;
+    #100
+    ALUSrc1 = 0; ALUSrc2 = 0; alu_input2_instr_src = 16'hC; ALUOp = 4'b0000; RegWrite = 0; 
+    #100;
+end
+
 endmodule
