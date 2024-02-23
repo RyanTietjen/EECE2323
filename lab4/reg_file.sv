@@ -33,7 +33,6 @@ module reg_file(
     );
     
     reg [15:0] reg_array [0:7];
-    assign reg_array[0] = 15'b0;
     assign rd0_data = reg_array[rd0_addr];
     assign rd1_data = reg_array[rd1_addr];
     
@@ -41,7 +40,7 @@ module reg_file(
     always_ff @(posedge clk) begin
         if (rst) begin
         integer i;
-            for (i = 0; i < 8; i = i + i) begin
+            for (i = 0; i < 8; i = i + 1) begin
                 reg_array[i] <= 0;
             end
         
