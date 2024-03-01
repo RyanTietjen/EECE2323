@@ -86,8 +86,8 @@ module instruction_decoder(
     RegWrite = 1;
     RegDst = 1;
     instr_i = nzimm;
-    ALUSrc1 = 1;
-    ALUSrc2 = 0;
+    ALUSrc1 = 0;
+    ALUSrc2 = 1;
     ALUOp = 4'b0;
     MemWrite = 0;
     MemToReg = 0;
