@@ -48,7 +48,7 @@ module instruction_decoder(
     RegDst = 1;
     instr_i = immediate;
     ALUSrc1 = 0;
-    ALUSrc2 = 0;
+    ALUSrc2 = 1;
     ALUOp = 4'b0;
     MemWrite = 0;
     MemToReg = 1;
@@ -61,7 +61,7 @@ module instruction_decoder(
     RegDst = 0;
     instr_i = immediate;
     ALUSrc1 = 0;
-    ALUSrc2 = 0;
+    ALUSrc2 = 1;
     ALUOp = 4'b0;
     MemWrite = 1;
     MemToReg = 0;
