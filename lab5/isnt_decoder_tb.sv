@@ -20,22 +20,23 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module inst_decoder_tb(
-logic [6:0] immediate,
-logic [5:0] nzimm,
-logic [8:0] offset,
-logic [3:0] opcode,
-logic RegWrite,
-logic RegDst,
-logic [15:0] instr_i,
-logic ALUSrc1,
-logic ALUSrc2,
-logic [3:0] ALUOp,
-logic MemWrite,
-logic [3:0] opcode,
-logic MemToReg,
-logic Regsrc
-    );
+module inst_decoder_tb();
+logic [6:0] immediate;
+logic [5:0] nzimm;
+logic [8:0] offset;
+logic [3:0] opcode;
+logic RegWrite;
+logic RegDst;
+logic [15:0] instr_i;
+logic ALUSrc1;
+logic ALUSrc2;
+logic [3:0] ALUOp;
+logic MemWrite;
+logic [3:0] opcode_out;
+logic MemToReg;
+logic Regsrc;
+
+    instruction_decoder decoder(immediate, nzimm, offset, opcode, RegWrite, RegDst, instr_i, ALUSrc1, ALUSrc2, ALUOp, MemWrite, opcode_out, MemToReg, Regsrc);
     
     initial begin
     immediate = 7'b0; nzimm = 6'b0; offset = 9'b0; opcode = 4'b0;
