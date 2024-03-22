@@ -37,7 +37,7 @@ module reg_file(
     assign rd1_data = reg_array[rd1_addr];
     
     
-    always_ff @(posedge clk) begin
+    always_ff @(posedge clk, posedge rst) begin
         if (rst) begin
         integer i;
             for (i = 0; i < 8; i = i + 1) begin
