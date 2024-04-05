@@ -21,8 +21,8 @@
 
 
 module instruction_decoder(
-    input logic [6:0]immediate,
-    input logic [5:0]nzimm,
+    input logic [15:0]immediate,
+    input logic [15:0]nzimm,
     input logic [8:0]offset,
     input logic [3:0]opcode,
     output logic RegWrite,
@@ -35,12 +35,16 @@ module instruction_decoder(
     output logic [3:0]opcode_out,
     output logic MemToReg,
     output logic Regsrc
+   
     );
+    logic[15:0] ExtImmediate;
+    logic[15:0] ExtNzimm;
+
     
     always @ (immediate, nzimm, offset, opcode) begin
     
-    immediate = {{9{immediate[6]}}, immediate};
-    nzimm = {{10{nzimm[5]}}, nzimm};
+    ExtImmediate = immediate;
+    ExtNzimm = nzimm;
     
     opcode_out = opcode;
     case(opcode)
@@ -49,7 +53,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b0;
@@ -62,7 +66,7 @@ module instruction_decoder(
     begin
     RegWrite = 0;
     RegDst = 0;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b0;
@@ -75,7 +79,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 0;
     ALUOp = 4'b0;
@@ -89,7 +93,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = nzimm;
+    instr_i = ExtNzimm;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b0;
@@ -102,7 +106,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 0;
     ALUOp = 4'b10;
@@ -115,7 +119,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b10;
@@ -128,7 +132,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 0;
     ALUOp = 4'b11;
@@ -141,7 +145,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = immediate;
+    instr_i = ExtImmediate;
     ALUSrc1 = 0;
     ALUSrc2 = 0;
     ALUOp = 4'b1000;
@@ -154,7 +158,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = nzimm;
+    instr_i = ExtNzimm;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b100;
@@ -167,7 +171,7 @@ module instruction_decoder(
     begin
     RegWrite = 1;
     RegDst = 1;
-    instr_i = nzimm;
+    instr_i = ExtNzimm;
     ALUSrc1 = 0;
     ALUSrc2 = 1;
     ALUOp = 4'b101;
