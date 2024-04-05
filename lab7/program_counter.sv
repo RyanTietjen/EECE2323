@@ -25,7 +25,7 @@ module program_counter(
     input rst,
     output logic [8:0] pc,
     input logic alu_take_branch,
-    input logic offset[8:0]
+    input logic [8:0]offset
     );
     
     always @ (posedge clk, posedge rst) begin
@@ -33,7 +33,7 @@ module program_counter(
             pc <= 0;
         end
         else begin
-            pc <= alu_take_branch ? pc + offset : pc + 1;
+            pc <= alu_take_branch ? (pc + offset) : (pc + 1);
         end
     end
     
