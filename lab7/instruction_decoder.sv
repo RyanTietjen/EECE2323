@@ -21,8 +21,8 @@
 
 
 module instruction_decoder(
-    input logic [15:0]immediate,
-    input logic [15:0]nzimm,
+    input logic [6:0]immediate,
+    input logic [5:0]nzimm,
     input logic [8:0]offset,
     input logic [3:0]opcode,
     output logic RegWrite,
@@ -45,6 +45,9 @@ module instruction_decoder(
     
     ExtImmediate = immediate;
     ExtNzimm = nzimm;
+    
+//    ExtImmediate = 16'(signed'(immediate));
+//    ExtNzimm = 16'(signed'(nzimm));
     
     opcode_out = opcode;
     case(opcode)
