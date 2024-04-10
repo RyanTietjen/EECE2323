@@ -65,7 +65,7 @@ module alu_instrmem_top(input clk,	// clock for vio and regfile
 	 //instruction_memory
     instr_mem inst_mem(.a(pc),.spo(instruction));
 	//instantiate program counter
-	program_counter prog_count(.clk(pb_clk_debounced),.rst(reset),.pc(pc),.take_branch(alu_take_branch),.offset(offset));
+	program_counter prog_count(.clk(pb_clk_debounced),.rst(reset),.pc(pc),.alu_take_branch(alu_take_branch),.offset(offset));
 	// mapper instantiation
 	mapper(.instruction(instruction), .rs1(rs1),.rs2(rs2),.rd(rd),.immediate(immediate),.nzimm(nzimm),.offset(offset),.opcode(opcode));
 	//instantiate instruction decoder
