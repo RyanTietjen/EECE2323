@@ -21,13 +21,13 @@
 
 
 module instruction_decoder(
-    input logic [6:0]immediate,
-    input logic [5:0]nzimm,
+    input logic signed[6:0]immediate,
+    input logic signed[5:0]nzimm,
     input logic [8:0]offset,
     input logic [3:0]opcode,
     output logic RegWrite,
     output logic RegDst,
-    output logic [15:0]instr_i,
+    output logic signed[15:0]instr_i,
     output logic ALUSrc1,
     output logic ALUSrc2,
     output logic [3:0]ALUOp,
@@ -37,8 +37,8 @@ module instruction_decoder(
     output logic Regsrc
    
     );
-    logic[15:0] ExtImmediate;
-    logic[15:0] ExtNzimm;
+    logic signed[15:0] ExtImmediate;
+    logic signed[15:0] ExtNzimm;
 
     
     always @ (immediate, nzimm, offset, opcode) begin
